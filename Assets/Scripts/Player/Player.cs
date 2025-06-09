@@ -15,7 +15,6 @@ public class Player : MonoBehaviour
     private void Awake()
     {
         _playerMover = GetComponent<PlayerMover>();
-        _scoreCounter = GetComponent<ScoreCounter>();
         _startPosition = transform.position;
     }
 

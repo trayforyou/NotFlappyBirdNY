@@ -14,16 +14,14 @@ public class EndScreen : Window
 
     public event Action RestartButtonClicked;
 
-    private void Awake()
+    private void OnEnable()
     {
-        _baseHighRecodText = _highRecordText.text;
+        if (_baseHighRecodText == null)
+            _baseHighRecodText = _highRecordText.text;
 
-        _scoreCounter.ChangedHighScore += ChangeHighScore;
-    }
-
-    private void ChangeHighScore(int highScore)
-    {
+        _highScore = _scoreCounter.GetHighScore();
         _highRecordText.text = _baseHighRecodText + _highScore;
+        Debug.Log("Поменял в енд скрине");
     }
 
     protected override void OnButtonClick()

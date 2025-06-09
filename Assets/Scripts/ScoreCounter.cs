@@ -40,13 +40,6 @@ public class ScoreCounter : MonoBehaviour
 
     public void Reset()
     {
-        if (_highScore < _currentScore)
-        {
-            _highScore = _currentScore;
-
-            ChangedHighScore?.Invoke(_highScore);
-        }
-
         _currentScore = 0;
     }
 
@@ -57,11 +50,18 @@ public class ScoreCounter : MonoBehaviour
 
         while(enabled)
         {
-            _currentScore++;
-
             _currentCount.text = _text + _currentScore;
 
+            if(_highScore < _currentScore)
+            {
+                _highScore = _currentScore;
+
+                ChangedHighScore?.Invoke(_highScore);
+            }
+
             yield return wait;
+
+            _currentScore++;
         }
     }
 }
