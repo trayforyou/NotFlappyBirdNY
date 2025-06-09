@@ -10,10 +10,28 @@ public class Game : MonoBehaviour
     [SerializeField] private StartScreen _startScreen;
     [SerializeField] private EndScreen _endScreen;
 
+    private void Start()
+    {
+        ActivateStartScreen();
+    }
+
     private void OnEnable()
     {
+        _player.Die += EndGame;
         _startScreen.PlayButtonClicked += OnPlayButtonClick;
         _endScreen.RestartButtonClicked += OnRestartButtonClick;
+    }
+
+    private void ActivateStartScreen()
+    {
+        Time.timeScale = 0;
+        _startScreen.Open();
+    }
+
+    private void EndGame()
+    {
+        Time.timeScale = 0;
+        _endScreen.Open();
     }
 
     private void OnRestartButtonClick()

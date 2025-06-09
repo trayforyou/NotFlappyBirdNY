@@ -55,8 +55,8 @@ public class PlayerMover : MonoBehaviour
         }
     }
 
-    internal void Reset()
+    public void Reset()
     {
-        throw new NotImplementedException();
+        _rigidbody.velocity = Vector2.zero;
     }
 }

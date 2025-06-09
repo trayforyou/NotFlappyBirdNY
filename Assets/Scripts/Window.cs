@@ -12,18 +12,25 @@ public abstract class Window : MonoBehaviour
     protected CanvasGroup WindowsGroup => _windowsGroup;
     protected Button ActionButton => _actionButton;
 
-    private void OnEnable()
+    private void Awake()
     {
         _actionButton.onClick.AddListener(OnButtonClick);
     }
 
-    private void OnDisable()
+    private void OnApplicationQuit()
     {
         _actionButton.onClick.RemoveListener(OnButtonClick);
     }
 
     protected abstract void OnButtonClick();
 
-    public abstract void Close();
-    public abstract void Open();
+    public void Close()
+    {
+        gameObject.SetActive(false);
+    }
+
+    public void Open()
+    {
+        gameObject.SetActive(true);
+    }
 }

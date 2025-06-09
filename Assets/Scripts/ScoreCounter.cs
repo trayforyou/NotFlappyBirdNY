@@ -1,24 +1,67 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class ScoreCounter : MonoBehaviour
 {
-    internal void Reset()
+    [SerializeField] TextMeshProUGUI _currentCount;
+
+    private string _text;
+    private int _highScore;
+    private int _currentScore = 0;
+    private Coroutine _coroutine;
+
+    public event Action<int> ChangedCurrentScore;
+    public event Action<int> ChangedHighScore;
+
+    private void Awake()
     {
-        throw new NotImplementedException();
+        _text = _currentCount.text;
     }
 
-    // Start is called before the first frame update
-    void Start()
+    private void Start()
     {
-        
+        _coroutine = StartCoroutine(StartCounting());
+
+        ChangedHighScore?.Invoke(_currentScore);
     }
 
-    // Update is called once per frame
-    void Update()
+    private void OnDisable()
     {
-        
+        if (_coroutine != null)
+            StopCoroutine(_coroutine);
+    }
+
+    public int GetHighScore()
+        => _highScore;
+
+    public void Reset()
+    {
+        if (_highScore < _currentScore)
+        {
+            _highScore = _currentScore;
+
+            ChangedHighScore?.Invoke(_highScore);
+        }
+
+        _currentScore = 0;
+    }
+
+    private IEnumerator StartCounting()
+    {
+        float delay = 0.5f;
+        WaitForSeconds wait = new WaitForSeconds(delay);
+
+        while(enabled)
+        {
+            _currentScore++;
+
+            _currentCount.text = _text + _currentScore;
+
+            yield return wait;
+        }
     }
 }
