@@ -4,7 +4,7 @@ using UnityEngine;
 [RequireComponent(typeof(PlayerMover))]
 public class Player : MonoBehaviour
 {
-    [SerializeField] private ScoreCounter _scoreCounter;
+    
 
     private PlayerMover _playerMover;
     private Vector2 _startPosition;
@@ -21,8 +21,8 @@ public class Player : MonoBehaviour
     public void Reset()
     {
         transform.position = _startPosition;
+        Debug.Log("Reeset Position");
         _playerMover.Reset();
-        _scoreCounter.Reset();
     }
 
     public void Kill() =>

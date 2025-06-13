@@ -6,9 +6,10 @@ using UnityEngine;
 public class Game : MonoBehaviour
 {
     [SerializeField] private Player _player;
-    //[SerializeField] private EnemyGenerartor _enemyGenerator;
     [SerializeField] private StartScreen _startScreen;
     [SerializeField] private EndScreen _endScreen;
+    [SerializeField] private SpawnerEnemies _spawnerEnemy;
+    [SerializeField] private ScoreCounter _scoreCounter;
 
     private void Start()
     {
@@ -48,7 +49,15 @@ public class Game : MonoBehaviour
 
     private void StartGame()
     {
+        ResetGame();
+
         Time.timeScale = 1;
+    }
+
+    private void ResetGame()
+    {
         _player.Reset();
+        _scoreCounter.Reset();
+        _spawnerEnemy.Reset();
     }
 }

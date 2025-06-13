@@ -21,7 +21,6 @@ public class EndScreen : Window
 
         _highScore = _scoreCounter.GetHighScore();
         _highRecordText.text = _baseHighRecodText + _highScore;
-        Debug.Log("Поменял в енд скрине");
     }
 
     protected override void OnButtonClick()
