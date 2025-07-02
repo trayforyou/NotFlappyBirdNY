@@ -1,14 +1,12 @@
 using System;
-using System.Collections;
-using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 
 public class EndScreen : Window
 {
     [SerializeField] TextMeshProUGUI _highRecordText;
-    [SerializeField] int _highScore;
     [SerializeField] ScoreCounter _scoreCounter;
+    [SerializeField] int _highScore;
 
     private string _baseHighRecodText;
 
@@ -23,8 +21,6 @@ public class EndScreen : Window
         _highRecordText.text = _baseHighRecodText + _highScore;
     }
 
-    protected override void OnButtonClick()
-    {
+    protected override void OnButtonClick() => 
         RestartButtonClicked?.Invoke();
-    }
 }

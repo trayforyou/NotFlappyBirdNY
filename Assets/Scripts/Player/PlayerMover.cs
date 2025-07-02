@@ -1,9 +1,5 @@
-using System;
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.EventSystems;
-using UnityEngine.UIElements;
 
 [RequireComponent(typeof(Rigidbody2D))]
 [RequireComponent(typeof(PlayerInput))]
@@ -21,20 +17,17 @@ public class PlayerMover : MonoBehaviour
         _playerInput = GetComponent<PlayerInput>();
     }
 
-    private void Start()
-    {
+    private void Start() => 
         StartCoroutine(MoveFoward());
-    }
 
-    private void OnEnable()
-    {
+    private void OnEnable() => 
         _playerInput.Jumped += Jump;
-    }
 
-    private void OnDisable()
-    {
+    private void OnDisable() => 
         _playerInput.Jumped -= Jump;
-    }
+
+    public void Reset() => 
+        _rigidbody.velocity = Vector2.zero;
 
     private void Jump()
     {
@@ -53,10 +46,5 @@ public class PlayerMover : MonoBehaviour
 
             yield return null;
         }
-    }
-
-    public void Reset()
-    {
-        _rigidbody.velocity = Vector2.zero;
     }
 }

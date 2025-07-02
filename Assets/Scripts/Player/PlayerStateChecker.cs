@@ -1,6 +1,4 @@
 using System.Collections;
-using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
 
 [RequireComponent(typeof(Rigidbody2D))]
@@ -11,7 +9,6 @@ public class PlayerStateChecker : MonoBehaviour
     private Rigidbody2D _rigidbody;
     private bool _isFall;
 
-
     private void Awake()
     {
         _animationChanger = GetComponent<PlayerAnimationChanger>();
@@ -19,10 +16,8 @@ public class PlayerStateChecker : MonoBehaviour
         _isFall = false;
     }
 
-    private void Start()
-    {
+    private void Start() => 
         StartCoroutine(GetState());
-    }
 
     private IEnumerator GetState()
     {

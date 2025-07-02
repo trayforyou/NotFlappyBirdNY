@@ -1,15 +1,19 @@
 using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 [RequireComponent(typeof(EnemyAttack))]
 public class Enemy : Collisioner, IPoolInstance
 {
-    public event Action<Enemy> BacameUnnecessary;
+    private EnemyAttack _enemyAttack;
 
-    public void Hide()
-    {
-        BacameUnnecessary?.Invoke(this);
-    }
+    public event Action<Enemy> BecameUnnecessary;
+
+    private void Awake() => 
+        _enemyAttack = GetComponent<EnemyAttack>();
+
+    public void Hide() => 
+        BecameUnnecessary?.Invoke(this);
+
+    public void SetMissilesSpawner(SpawnerMissiles spawner) => 
+        _enemyAttack.SetMissilesSpawner(spawner);
 }

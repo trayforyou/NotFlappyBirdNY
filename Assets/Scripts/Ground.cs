@@ -1,4 +1,1 @@
-using UnityEngine;
-
-public class Ground : Collisioner 
-{}
+public class Ground : Collisioner {}

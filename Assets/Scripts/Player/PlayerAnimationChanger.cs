@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 [RequireComponent(typeof(Rigidbody2D))]
@@ -7,27 +5,35 @@ public class PlayerAnimationChanger : MonoBehaviour
 {
     [SerializeField] private Animator _animator;
 
-    private string CurrentState = "";
-    private string JumpState;
-    private string FallState;
+    private string _currentState;
+    private string _jumpState;
+    private string _fallState;
 
     private void Awake()
     {
-        JumpState = "Jump";
-        FallState = "Fall";
-
-        Fall();
+        _currentState = "";
+        _jumpState = "Jump";
+        _fallState = "Fall";
     }
 
     public void Jump()
     {
-        if (CurrentState != JumpState)
-            _animator.Play(JumpState);
+        if (_currentState != _jumpState)
+        {
+            _currentState = _jumpState;
+            _animator.Play(_jumpState);
+        }
     }
 
     public void Fall()
     {
-        if (CurrentState != FallState)
-            _animator.Play(FallState);
+        if (_currentState != _fallState)
+        {
+            _currentState = _fallState;
+            _animator.Play(_fallState);
+        }
     }
+
+    public void Reset() => 
+        Fall();
 }

@@ -1,47 +1,49 @@
 using System;
 using System.Collections;
-using System.Collections.Generic;
 using TMPro;
-using Unity.VisualScripting;
 using UnityEngine;
 
 public class ScoreCounter : MonoBehaviour
 {
-    [SerializeField] TextMeshProUGUI _currentCount;
+    [SerializeField] private TextMeshProUGUI _currentCount;
+    [SerializeField] private PlayerAttack _playerAttack;
+    [SerializeField] private int _murderPoints = 10;
 
     private string _text;
     private int _highScore;
     private int _currentScore = 0;
     private Coroutine _coroutine;
 
-    public event Action<int> ChangedCurrentScore;
     public event Action<int> ChangedHighScore;
 
-    private void Awake()
-    {
+    private void Awake() => 
         _text = _currentCount.text;
-    }
 
     private void Start()
     {
         _coroutine = StartCoroutine(StartCounting());
-
         ChangedHighScore?.Invoke(_currentScore);
     }
+
+    private void OnEnable() => 
+        _playerAttack.KilledEnemy += UpScore;
 
     private void OnDisable()
     {
         if (_coroutine != null)
             StopCoroutine(_coroutine);
+    
+        _playerAttack.KilledEnemy -= UpScore;
     }
 
-    public int GetHighScore()
-        => _highScore;
+    public void Reset() =>
+    _currentScore = 0;
 
-    public void Reset()
-    {
-        _currentScore = 0;
-    }
+    public int GetHighScore() =>
+        _highScore;
+
+    private void UpScore() => 
+        _currentScore += _murderPoints;
 
     private IEnumerator StartCounting()
     {

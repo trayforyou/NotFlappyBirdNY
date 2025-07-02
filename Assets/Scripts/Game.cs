@@ -1,6 +1,3 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class Game : MonoBehaviour
@@ -9,18 +6,24 @@ public class Game : MonoBehaviour
     [SerializeField] private StartScreen _startScreen;
     [SerializeField] private EndScreen _endScreen;
     [SerializeField] private SpawnerEnemies _spawnerEnemy;
+    [SerializeField] private SpawnerMissiles _spawnerMissiles;
     [SerializeField] private ScoreCounter _scoreCounter;
 
-    private void Start()
-    {
+    private void Start() => 
         ActivateStartScreen();
-    }
 
     private void OnEnable()
     {
         _player.Die += EndGame;
         _startScreen.PlayButtonClicked += OnPlayButtonClick;
         _endScreen.RestartButtonClicked += OnRestartButtonClick;
+    }
+
+    private void OnDisable()
+    {
+        _player.Die -= EndGame;
+        _startScreen.PlayButtonClicked -= OnPlayButtonClick;
+        _endScreen.RestartButtonClicked -= OnRestartButtonClick;
     }
 
     private void ActivateStartScreen()
@@ -50,7 +53,6 @@ public class Game : MonoBehaviour
     private void StartGame()
     {
         ResetGame();
-
         Time.timeScale = 1;
     }
 
@@ -59,5 +61,6 @@ public class Game : MonoBehaviour
         _player.Reset();
         _scoreCounter.Reset();
         _spawnerEnemy.Reset();
+        _spawnerMissiles.Reset();
     }
 }
