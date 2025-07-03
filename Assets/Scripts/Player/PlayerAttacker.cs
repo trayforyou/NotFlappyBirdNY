@@ -3,12 +3,11 @@ using System.Collections;
 using UnityEngine;
 
 [RequireComponent(typeof(PlayerInput))]
-public class PlayerAttack : MonoBehaviour
+public class PlayerAttacker : MonoBehaviour
 {
+    [SerializeField] private LayerMask _target;
     [SerializeField] private float _rechargeTime = 1;
     [SerializeField] private SpawnerMissiles _spawnerMissiles;
-
-    public event Action KilledEnemy;
 
     private PlayerInput _playerInput;
     private Coroutine _coroutine;
@@ -21,11 +20,11 @@ public class PlayerAttack : MonoBehaviour
     }
 
     private void OnEnable() => 
-        _playerInput.Attack += Shoot;
+        _playerInput.AttackButtonPressed += Shoot;
 
     private void OnDisable()
     {
-        _playerInput.Attack -= Shoot;
+        _playerInput.AttackButtonPressed -= Shoot;
 
         if (_coroutine != null)
             StopCoroutine(_coroutine);
@@ -45,17 +44,8 @@ public class PlayerAttack : MonoBehaviour
         {
             _coroutine = StartCoroutine(Recharge());
 
-            Missile newMissile = _spawnerMissiles.ShootInEnemy(transform.position);
-
-            newMissile.KilledEnemy += KillEnemy;
+            _spawnerMissiles.Shoot(transform.position, Vector2.right, _target);
         }
-    }
-
-    private void KillEnemy(Missile missile)
-    {
-        missile.KilledEnemy -= KillEnemy;
-
-        KilledEnemy?.Invoke();
     }
 
     private IEnumerator Recharge()

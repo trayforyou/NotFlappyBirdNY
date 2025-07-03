@@ -1,19 +1,37 @@
 using System;
 using UnityEngine;
 
-[RequireComponent(typeof(EnemyAttack))]
-public class Enemy : Collisioner, IPoolInstance
+[RequireComponent(typeof(EnemyAttacker))]
+public class Enemy : Collisioner, IPoolInstance, IDamageable
 {
-    private EnemyAttack _enemyAttack;
+    private EnemyAttacker _enemyAttack;
+    private bool _isLive = false;
 
     public event Action<Enemy> BecameUnnecessary;
+    public event Action Died;
 
-    private void Awake() => 
-        _enemyAttack = GetComponent<EnemyAttack>();
+    private void Awake() =>
+        _enemyAttack = GetComponent<EnemyAttacker>();
 
-    public void Hide() => 
+    private void OnEnable() =>
+        _isLive = true;
+
+    private void OnDisable() =>
+        _isLive = false;
+
+    public void Hide() =>
         BecameUnnecessary?.Invoke(this);
 
-    public void SetMissilesSpawner(SpawnerMissiles spawner) => 
+    public void SetMissilesSpawner(SpawnerMissiles spawner) =>
         _enemyAttack.SetMissilesSpawner(spawner);
+
+    public void TakeDamage()
+    {
+        if (_isLive)
+        {
+            _isLive = false;
+            Died?.Invoke();
+            Hide();
+        }
+    }
 }

@@ -14,14 +14,14 @@ public class Game : MonoBehaviour
 
     private void OnEnable()
     {
-        _player.Die += EndGame;
+        _player.Died += EndGame;
         _startScreen.PlayButtonClicked += OnPlayButtonClick;
         _endScreen.RestartButtonClicked += OnRestartButtonClick;
     }
 
     private void OnDisable()
     {
-        _player.Die -= EndGame;
+        _player.Died -= EndGame;
         _startScreen.PlayButtonClicked -= OnPlayButtonClick;
         _endScreen.RestartButtonClicked -= OnRestartButtonClick;
     }

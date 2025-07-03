@@ -34,22 +34,13 @@ public class SpawnerMissiles : MonoBehaviour
         }
     }
 
-    public void ShootInPlayer(Vector2 position)
+    public void Shoot(Vector2 position, Vector2 direction, LayerMask target)
     {
         Missile missile = _missilesPool.Get();
         missile.BecameUnnecessary += _missilesPool.Release;
         missile.transform.position = position;
-        missile.SetDirection(Vector2.left);
-    }
-
-    public Missile ShootInEnemy(Vector2 position)
-    {
-        Missile missile = _missilesPool.Get();
-        missile.BecameUnnecessary += _missilesPool.Release;
-        missile.transform.position = position;
-        missile.SetDirection(Vector2.right);
-
-        return missile;
+        missile.SetDirection(direction);
+        missile.SetTarget(target);
     }
 
     private void ReleaceMissile(Missile missile)

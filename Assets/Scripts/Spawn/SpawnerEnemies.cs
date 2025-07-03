@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -19,6 +20,8 @@ public class SpawnerEnemies : MonoBehaviour
     private Coroutine _coroutine;
     private List<Enemy> _enemyInstances = new List<Enemy>();
 
+    public event Action EnemyDied;
+
     private void Awake()
     {
         _indexFirstPoint = 0;
@@ -38,7 +41,7 @@ public class SpawnerEnemies : MonoBehaviour
             );
     }
 
-    private void Start() => 
+    private void Start() =>
         _coroutine = StartCoroutine(Spawning());
 
     public void Reset()
@@ -76,14 +79,19 @@ public class SpawnerEnemies : MonoBehaviour
     {
         enemy.transform.position = Vector2.zero;
         enemy.BecameUnnecessary += _enemyPool.Release;
+        enemy.Died += EnemyDie;
         enemy.gameObject.SetActive(true);
     }
 
     private void ReleaceEnemy(Enemy enemy)
     {
         enemy.BecameUnnecessary -= _enemyPool.Release;
+        enemy.Died -= EnemyDie;
         enemy.gameObject.SetActive(false);
     }
+
+    private void EnemyDie() =>
+        EnemyDied?.Invoke();
 
     private IEnumerator Spawning()
     {
@@ -95,7 +103,7 @@ public class SpawnerEnemies : MonoBehaviour
 
             enemy = _enemyPool.Get();
             enemy.transform.position = _spawnPoints[_indexCurrentPoint].transform.position;
-            _indexCurrentPoint = Random.Range(0,_spawnPoints.Count);
+            _indexCurrentPoint = UnityEngine.Random.Range(0, _spawnPoints.Count);
 
             yield return null;
         }

@@ -2,21 +2,21 @@ using System;
 using UnityEngine;
 
 [RequireComponent(typeof(PlayerMover))]
-[RequireComponent(typeof(PlayerAttack))]
+[RequireComponent(typeof(PlayerAttacker))]
 [RequireComponent(typeof(PlayerAnimationChanger))]
-public class Player : MonoBehaviour
+public class Player : MonoBehaviour, IDamageable
 {
     private PlayerMover _playerMover;
-    private PlayerAttack _playerAttack;
+    private PlayerAttacker _playerAttack;
     private PlayerAnimationChanger _playerAnimationChanger;
     private Vector2 _startPosition;
 
-    public event Action Die;
+    public event Action Died;
 
     private void Awake()
     {
         _playerMover = GetComponent<PlayerMover>();
-        _playerAttack = GetComponent<PlayerAttack>();
+        _playerAttack = GetComponent<PlayerAttacker>();
         _playerAnimationChanger = GetComponent<PlayerAnimationChanger>();
         _startPosition = transform.position;
     }
@@ -29,6 +29,6 @@ public class Player : MonoBehaviour
         _playerAnimationChanger.Reset();
     }
 
-    public void Kill() =>
-        Die?.Invoke();
+    public void TakeDamage() => 
+        Died?.Invoke();
 }

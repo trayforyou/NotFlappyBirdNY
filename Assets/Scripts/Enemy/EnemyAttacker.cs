@@ -1,9 +1,10 @@
 ﻿using System.Collections;
 using UnityEngine;
 
-public class EnemyAttack : MonoBehaviour
+public class EnemyAttacker : MonoBehaviour
 {
     [SerializeField] private SpawnerMissiles _missleSpawner;
+    [SerializeField] private LayerMask _target;
     [SerializeField] private float _delayAttack;
 
     private Coroutine _coroutine;
@@ -28,7 +29,7 @@ public class EnemyAttack : MonoBehaviour
         {
             yield return wait;
 
-            _missleSpawner.ShootInPlayer(transform.position);
+            _missleSpawner.Shoot(transform.position, Vector2.left,_target);
         }
     }
 }

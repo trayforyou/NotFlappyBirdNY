@@ -21,10 +21,10 @@ public class PlayerMover : MonoBehaviour
         StartCoroutine(MoveFoward());
 
     private void OnEnable() => 
-        _playerInput.Jumped += Jump;
+        _playerInput.JumpButtonPressed += Jump;
 
     private void OnDisable() => 
-        _playerInput.Jumped -= Jump;
+        _playerInput.JumpButtonPressed -= Jump;
 
     public void Reset() => 
         _rigidbody.velocity = Vector2.zero;

@@ -6,46 +6,35 @@ public class Missile : MonoBehaviour, IPoolInstance
 {
     [SerializeField] private float _speed = 10;
 
+    private LayerMask _target;
     private Rigidbody2D _rigidbody;
-    private bool _canKill;
 
-    public event Action<Missile> KilledEnemy;
     public event Action<Missile> BecameUnnecessary;
 
-    private void Awake() => 
+    private void Awake() =>
         _rigidbody = GetComponent<Rigidbody2D>();
 
-    private void OnEnable() => 
-        _canKill = true;
+    private void OnTriggerEnter2D(Collider2D collision) =>
+        TryToDamage(collision);
 
-    private void OnTriggerEnter2D(Collider2D collision) => 
-        TryTakeDamage(collision);
-
-    public void Reset() => 
+    public void Reset() =>
         _rigidbody.velocity = Vector2.zero;
 
-    public void Hide() => 
+    public void Hide() =>
         BecameUnnecessary?.Invoke(this);
 
-    public void SetDirection(Vector2 direction) => 
+    public void SetDirection(Vector2 direction) =>
         _rigidbody.velocity = direction * _speed;
 
-    private void TryTakeDamage(Collider2D collision)
+    public void SetTarget(LayerMask target) =>
+        _target = target;
+
+    private void TryToDamage(Collider2D collision)
     {
-        if (_rigidbody.velocity.x < 0 && collision.gameObject.TryGetComponent(out Player player))
-        {
-            player.Kill();
-        }
-        else if (_rigidbody.velocity.x > 0 && collision.gameObject.TryGetComponent(out Enemy enemy))
-        {
-            if (_canKill)
+            if (collision.gameObject.TryGetComponent(out IDamageable damageableSubject) && (1 << collision.gameObject.layer) == _target)
             {
-                enemy.Hide();
-
-                KilledEnemy?.Invoke(this);
-
-                BecameUnnecessary?.Invoke(this);
+                    damageableSubject.TakeDamage();
+                    BecameUnnecessary?.Invoke(this);
             }
         }
-    }
 }

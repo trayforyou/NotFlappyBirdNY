@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 3834730848912198069}
   - component: {fileID: 133928781623482219}
   - component: {fileID: 6703828024914745420}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Enemy
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -157,6 +157,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _missleSpawner: {fileID: 0}
+  _target:
+    serializedVersion: 2
+    m_Bits: 128
   _delayAttack: 1
 --- !u!114 &6703828024914745420
 MonoBehaviour:

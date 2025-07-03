@@ -5,15 +5,15 @@ public class PlayerAnimationChanger : MonoBehaviour
 {
     [SerializeField] private Animator _animator;
 
-    private string _currentState;
-    private string _jumpState;
-    private string _fallState;
+    private int _currentState;
+    private int _jumpState;
+    private int _fallState;
 
     private void Awake()
     {
-        _currentState = "";
-        _jumpState = "Jump";
-        _fallState = "Fall";
+        _currentState = 0;
+        _jumpState = PlayerAnimatorData.Params.Jump;
+        _fallState = PlayerAnimatorData.Params.Fall;
     }
 
     public void Jump()

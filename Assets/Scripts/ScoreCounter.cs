@@ -6,7 +6,7 @@ using UnityEngine;
 public class ScoreCounter : MonoBehaviour
 {
     [SerializeField] private TextMeshProUGUI _currentCount;
-    [SerializeField] private PlayerAttack _playerAttack;
+    [SerializeField] private SpawnerEnemies _spawnerEnemies;
     [SerializeField] private int _murderPoints = 10;
 
     private string _text;
@@ -16,7 +16,7 @@ public class ScoreCounter : MonoBehaviour
 
     public event Action<int> ChangedHighScore;
 
-    private void Awake() => 
+    private void Awake() =>
         _text = _currentCount.text;
 
     private void Start()
@@ -25,15 +25,15 @@ public class ScoreCounter : MonoBehaviour
         ChangedHighScore?.Invoke(_currentScore);
     }
 
-    private void OnEnable() => 
-        _playerAttack.KilledEnemy += UpScore;
+    private void OnEnable() =>
+        _spawnerEnemies.EnemyDied += UpScore;
 
     private void OnDisable()
     {
         if (_coroutine != null)
             StopCoroutine(_coroutine);
-    
-        _playerAttack.KilledEnemy -= UpScore;
+
+        _spawnerEnemies.EnemyDied -= UpScore;
     }
 
     public void Reset() =>
@@ -50,11 +50,11 @@ public class ScoreCounter : MonoBehaviour
         float delay = 0.5f;
         WaitForSeconds wait = new WaitForSeconds(delay);
 
-        while(enabled)
+        while (enabled)
         {
             _currentCount.text = _text + _currentScore;
 
-            if(_highScore < _currentScore)
+            if (_highScore < _currentScore)
             {
                 _highScore = _currentScore;
 
